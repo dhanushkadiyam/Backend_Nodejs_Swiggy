@@ -58,13 +58,13 @@ const getAllVendors =async(req,res)=>{
 
 const getVendorById = async(req,res)=>{
     const vendorId = req.params.id;
-    try{
+    try {
         const vendor = await Vendor.findById(vendorId).populate('firm');
         if(!vendor){
             return res.status(404).json({message:'Vendor not found'});
         }
         const vendorFirmId = vendor.firm[0]._id;
-        res.status(200).json({vendorId,vendorFirmId });
+        res.status(200).json({ vendorId: vendor._id, vendorFirmId });
         console.log(vendorFirmId);
     }
     catch(error){

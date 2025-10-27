@@ -24,13 +24,12 @@ const productSchema=new mongoose.Schema({
     description:{
         type: String
     },
-    firm: [
+    firm:
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Firm',
             required: true
         }
-    ]
 });
 
 const Product=mongoose.model('Product',productSchema);
