@@ -19,7 +19,7 @@ const productSchema=new mongoose.Schema({
         type: String
     },
     bestSeller:{
-        type: String
+        type: Boolean
     },
     description:{
         type: String
@@ -27,7 +27,8 @@ const productSchema=new mongoose.Schema({
     firm: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Firm'
+            ref: 'Firm',
+            required: true
         }
     ]
 });
