@@ -1,50 +1,49 @@
 const express = require("express");
 const dotEnv = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors");
+
 const vendorRoutes = require("./routes/vendorRoutes");
 const firmRoutes = require("./routes/firmRoutes");
 const productRoutes = require("./routes/productRoutes");
-const path = require("path");
-const cors = require("cors");
 
-const app = express();
 dotEnv.config();
-
+const app = express();
 const PORT = process.env.PORT || 4000;
 
-// CORS middleware
+// ✅ CORS configuration
 app.use(cors({
-  origin: [
-    "https://react-dash-board-swiggy-clone.vercel.app",
-    "http://localhost:3000"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "https://react-dash-board-swiggy-clone.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
-// Middleware
+// ✅ Handle Preflight Requests
+app.options("*", (req, res) => {
+  res.sendStatus(200);
+});
+
+// ✅ Middleware for JSON
 app.use(express.json());
 
-// Static and Routes
-app.use('/uploads', express.static('uploads'));
+// ✅ Routes
 app.use('/vendor', vendorRoutes);
 app.use('/firm', firmRoutes);
 app.use('/product', productRoutes);
+app.use('/uploads', express.static('uploads'));
 
-// Default route
+// ✅ Default Route
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to Swiggy Clone Backend</h1>");
 });
 
-// Database Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log("MongoDB connected successfully!"))
-.catch(error => console.log(error));
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch((err) => console.log("❌ DB Error:", err));
 
-// Server Start
+// ✅ Starting Server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
