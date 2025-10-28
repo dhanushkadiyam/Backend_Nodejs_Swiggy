@@ -13,7 +13,11 @@ dotEnv.config();
 
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
+app.use(cors({
+  origin: "https://react-dash-board-swiggy-clone.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 
 //octacoder
