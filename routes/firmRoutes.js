@@ -1,11 +1,14 @@
 const express = require('express');
 const firmController= require('../controllers/firmController');
 const verifyToken = require('../middlewares/verifyToken');
+const path = require('path');
+
+const { upload } = firmController;
 
 const router = express.Router();
 
-// Use upload.single('image') here in the route
-router.post('/add-firm', verifyToken, firmController.addFirm);
+// Use upload.single('image') here in the route (verifyToken first, then file upload)
+router.post('/add-firm', verifyToken, upload.single('image'), firmController.addFirm);
 
 router.get('/uploads/:imageName', (req, res) => {
     const imageName = req.params.imageName;

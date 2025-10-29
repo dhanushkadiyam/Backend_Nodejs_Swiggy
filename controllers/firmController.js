@@ -70,5 +70,5 @@ const deleteFirmById = async (req, res) => {
     }
 }
 
-// Export both separately
-module.exports = { addFirm: [upload.single('image'), addFirm], deleteFirmById };
+// Export upload and handlers; apply upload middleware in the routes so ordering is explicit
+module.exports = { upload, addFirm, deleteFirmById };
